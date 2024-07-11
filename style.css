@@ -9,7 +9,6 @@
     --nav-hover-color: #82D8EF;
     --nav-hover-bg: #82d8ef17;
     --top-nav-bg: #cbd8e9;
-    --asidePadding: ;
 }
 
 /* MAIN CONTAINER */
@@ -88,7 +87,22 @@ img.user-img {
     justify-content: center;
     align-items: center;
 }
-table {
+
+/* TABLE */
+.tableWrapper {
     max-width: 95%;
     margin: 0 auto;
+    width: 100%;
+}
+.pagination > li:not(:first-child) {
+    border-left: 0;
+}
+.pagination > li {
+    padding: 2px 15px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+}
+.pagination > li:hover,.pagination > li.active {
+    background-color: #cccccc30;
 }
