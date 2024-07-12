@@ -1,70 +1,73 @@
-let aside_width = document.querySelector('#sideNav');
-let root_theme = document.querySelector(':root');
+let aside_width = document.querySelector('#sideNav')
+let root_theme = document.querySelector(':root')
+const btn_entriesperPage = document.querySelector('.entries-perPage select')
+
 
 root_theme.style.setProperty('--asidePadding', parseInt(aside_width.offsetWidth) +3 + 'px');
 
 
 
-const apiCall = async () => {
-    const apiCallPromise  = await 
-    fetch('https://jsonplaceholder.typicode.com/todos');
-    const apiCallObj = await apiCallPromise.json();
-    return apiCallObj;
-};
-
-
-const tableContent = (page_number, list_number) => {
-    
-    let startTo_page = page_number;
-    let numberOf_item_perPage = 9;
-
-    apiCall().then( objectText => {
-        let tableSample = document.querySelector('#tableSample tbody');
-        let tablePagination = document.querySelector('.tableWrapper') 
-        
-        const array2 = objectText;
-        let array3 = [];
-        for(c=startTo_page; c < startTo_page+numberOf_item_perPage; c++) {
-            if(c <= array2.length) {
-                array3.push(array2[c-1])
-            } 
-        }
-
-        array3.forEach(element => {
-                tableSample.innerHTML += `<tr>  <td>${element.userId}</td> <td>${element.id}</td>  <td>${element.title}</td>  <td>${element.completed}</td>  </tr>`;
-        });
-
-        let total_pages = Math.ceil(array2.length/numberOf_item_perPage)
-        if (total_pages > 1) {
-                        tablePagination.innerHTML += '<div class="table-pagination"><ul class="pagination float-end mt-3"> </ul></div>'
-                        let tablePaginationlist = document.querySelector('.pagination') 
-                        for(i=1; i <= total_pages; i++) {
-                        tablePaginationlist.innerHTML += `<li pagenum="${i}">${i}</li>`
-         }
-         btnpagination_eventListener()
-        }
-        
-        
-    })
-
+const fetchFakeJson_API = async () => {
+    const todos_response = await fetch('https://jsonplaceholder.typicode.com/todos');
+    const todos_json = await todos_response.json();
+    return todos_json 
 }
 
-const btnpagination_eventListener = () => {
-    let btn_pagination123 = document.querySelectorAll('.pagination > li');
 
-    btn_pagination123.forEach(btn_pagenum => {
-        btn_pagenum.addEventListener('click', (e) => {
-            let mainTable = document.querySelector('#tableSample tbody');
-            let tablePaginationlist = document.querySelector('.pagination');
-            tablePaginationlist.innerHTML = '';
-            mainTable.innerHTML = '';
-            let pagenum = (parseInt(e.target.getAttribute('pagenum')-1) *10) +1
-            tableContent(pagenum)
+const get_todos = (page_number) => {
+    fetchFakeJson_API().then(todos => {
+        
+        let todos_array = todos
+        let page_selected = page_number
+        let todos_count_perPage = parseInt(btn_entriesperPage.value)
+        let table_todos = document.querySelector('table#tableSample')
+
+        if (page_selected == null) {
+            page_selected = 1;
+        }
+
+        let n = (page_selected-1) *todos_count_perPage
+        let array_end = n +todos_count_perPage
+        table_todos.querySelector('tbody').innerHTML = ''
+        do {
+            table_todos.querySelector('tbody').innerHTML += `<tr> <td>${todos_array[n].userId}</td> <td>${todos_array[n].id}</td> <td>${todos_array[n].title}</td> <td>${todos_array[n].completed}</td> </tr>`
+            n++
+        } while (n < array_end);
+        
+        let page_count = Math.ceil(todos_array.length/todos_count_perPage);
+        if ( page_count > 1 ) {
+            let tablePagination = document.querySelector('.table-pagination');
+            tablePagination.querySelector('.pagination').innerHTML = ''
+            for(i=1; i <= page_count; i++) {
+                if ( i == page_selected ) {
+                    tablePagination.querySelector('.pagination').innerHTML += `<li class='active' value="${i}">${i}</li>`
+                } else {
+                    tablePagination.querySelector('.pagination').innerHTML += `<li value="${i}">${i}</li>`
+                }
+                
+            }
+            paginations_function()
+        }
+
+    })
+}
+
+
+get_todos()
+
+
+btn_entriesperPage.addEventListener('change', (e) => {
+    get_todos()
+})
+
+const paginations_function = () => {
+        let btn_pagination = document.querySelectorAll('.pagination li')
+        btn_pagination.forEach(btn => {
+            btn.addEventListener('click', (event) => {
+                get_todos(event.target.getAttribute('value'))
+            })
         })
-    })
 }
-
-tableContent(21)
 
 
 
