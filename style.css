@@ -94,7 +94,7 @@ img.user-img {
     width: 100%;
    
 }
-.tableWrapper table {
+.tableWrapper table.loading {
     min-height: 300px;
     position: relative;
 }

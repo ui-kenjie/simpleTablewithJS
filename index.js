@@ -21,19 +21,30 @@ const get_todos = (page_number) => {
         let page_selected = page_number
         let todos_count_perPage = parseInt(btn_entriesperPage.value)
         let table_todos = document.querySelector('table#tableSample')
+        let page_load = 0;
 
         if (page_selected == null) {
-            page_selected = 1;
+            page_selected = 1
+            page_load = 500
         }
 
         let n = (page_selected-1) *todos_count_perPage
         let array_end = n +todos_count_perPage
         table_todos.querySelector('tbody').innerHTML = ''
+        table_todos.classList.add('loading')
         do {
-            table_todos.querySelector('tbody').innerHTML += `<tr> <td>${todos_array[n].userId}</td> <td>${todos_array[n].id}</td> <td>${todos_array[n].title}</td> <td>${todos_array[n].completed}</td> </tr>`
+            if (!(n >= todos_array.length)) {
+                table_todos.querySelector('tbody').innerHTML += `<tr> <td>${todos_array[n].userId}</td> <td>${todos_array[n].id}</td> <td>${todos_array[n].title}</td> <td>${todos_array[n].completed}</td> </tr>`
+            }
+            if (n == (array_end-1)) {
+                setTimeout( () => {
+                    let table_todos = document.querySelector('table#tableSample')
+                    table_todos.classList.remove('loading')
+                },page_load)
+            }
             n++
-        } while (n < array_end);
-        
+        } while (n < array_end)
+ 
         let page_count = Math.ceil(todos_array.length/todos_count_perPage);
         if ( page_count > 1 ) {
             let tablePagination = document.querySelector('.table-pagination');
@@ -62,6 +73,7 @@ btn_entriesperPage.addEventListener('change', (e) => {
 
 const paginations_function = () => {
         let btn_pagination = document.querySelectorAll('.pagination li')
+
         btn_pagination.forEach(btn => {
             btn.addEventListener('click', (event) => {
                 get_todos(event.target.getAttribute('value'))
