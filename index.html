@@ -30,11 +30,11 @@
                 </a>
             </nav>
             <nav class="main-navigation w-100  ps-3">
-                <a href="" class="nav-link d-block text-white link-offset-2 link-underline link-underline-opacity-0 py-3 ps-3 pe-2 mt-1 active">
+                <a href="" class="nav-link d-block text-white link-offset-2 link-underline link-underline-opacity-0 py-3 ps-3 pe-2 mt-1 ">
                     <i class="fa-solid fa-house"></i>
                     <span>Home</span>
                 </a>
-                <a href="" class="nav-link d-block text-white link-offset-2 link-underline link-underline-opacity-0 py-3 ps-3 pe-2 mt-1">
+                <a href="" class="nav-link d-block text-white link-offset-2 link-underline link-underline-opacity-0 py-3 ps-3 pe-2 mt-1 active">
                     <i class="fa-solid fa-store"></i>
                     <span>Shop</span>
                 </a>
@@ -83,29 +83,30 @@
             </div>
             <div class="content-container flex-wrap px-3">
                 <div class="tableWrapper">
-                    <table id="tableSample" class="table text-center">
+                    <div class="inputs-container">
+                        <div class="search-wrapper float-end mb-4">
+                            <span class="me-2">Search: </span>
+                            <input type="text" id="tableSearch">
+                        </div>
+                    </div>
+                    <table id="tableSample" class="table text-center table-bordered table-striped">
                         <thead class="fw-bold text-uppercase">
-                            <tr>
-                                <td>userId</td>
-                                <td>id</td>
-                                <td>title</td>
-                                <td>completed</td>
-                            </tr>
+                            
                         </thead>
-                        <tbody>
+                        <tbody class="">
                             
                         </tbody>
                     </table>
                     <div class="table-pagination my-4">
                         <div class="entries-perPage">
-                            <span>Entries per page</span>
+                            <span class="me-2">Entries per page</span>
                             <select name="" id="" class="">
-                                <option value="10" selected>10</option>
-                                <option value="12">12</option>
+                                <option value="10" >10</option>
+                                <option value="12" selected>12</option>
                                 <option value="14">14</option>
                                 <option value="15">15</option>
                                 <option value="18">18</option>
-                                <option value="20">20</option>
+                                <option value="20" >20</option>
                                 <option value="23">23</option>
                                 <option value="25">25</option>
                                 <option value="30">30</option>
@@ -113,7 +114,7 @@
                                 <option value="38">38</option>
                             </select>
                         </div>
-                        <ul class="pagination my-0"> </ul>
+                        <ul id="tablePagination" class="pagination my-0"> </ul>
                     </div>
                 </div>
             </div>
